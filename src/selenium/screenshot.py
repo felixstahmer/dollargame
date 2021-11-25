@@ -22,7 +22,7 @@ def take_screenshot(url):
     # browser.add_cookie({'name' : 'game_11', 'value' : '{"Vertices":5,"Genus":0,"Min":-10,"Max":10,"Mode":"Game","GridMode":false,"GridMode1":false,"GridMode2":false,"DelCon":"0_1"}'})
     # browser.add_cookie({'name' : 'userId', 'value' : '5f7da34d-36b8-4ac9-af13-d391cc8cffba'})
 
-    time.sleep(10)  # wait 10 seconds for the site to load.
+    time.sleep(5)  # wait 5 seconds for the site to load.
 
     try:
         button = browser.find_element(By.CLASS_NAME, 'Hint_SkipBtn__2HsyR')

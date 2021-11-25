@@ -8,7 +8,7 @@ def cleanup_connections(connections):
     # loop over dict of connections to find duplicates
     for key in connections: 
         connection = connections[key]
-
+        
         d_1_circle = connection["d_1"]
         d_2_circle = connection["d_2"]
 
@@ -28,6 +28,9 @@ def cleanup_connections(connections):
 
                 # if a connection between two circles already exists mark found as true
                 if (d_1_index == c_d_1_index and d_2_index == c_d_2_index) or (d_1_index == c_d_2_index and d_2_index == c_d_1_index):
+                    found = True
+
+                if d_1_index == d_2_index: 
                     found = True
 
             # if true ignore this connection, if not put it in the cleaned up dict
@@ -55,7 +58,7 @@ def connection_detection(circles, lines):
             circle["index"] = i
             #del circle["dtype"]
 
-            offset = 20
+            offset = 30
 
             r = c_r + offset
 
@@ -80,7 +83,7 @@ def connection_detection(circles, lines):
         if index in connections:
             if len(connections[index]) <= 1:
                 del connections[index] 
-
+    
     clean_connections = cleanup_connections(connections)
 
     return clean_connections

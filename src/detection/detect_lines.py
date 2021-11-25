@@ -88,16 +88,17 @@ def white_out_circles(img_url, circles):
 #     unique_array = np.unique(lines_copy, axis=0)
 #     return unique_array
 
-def line_detection(img_url, circles):
+def line_detection(img_url, circles, directory):
     whited_out_url = white_out_circles(img_url, circles)
 
-    binary_url = "img/binary-for-linedetection.png"
+    binary_url = "{}/binary-for-linedetection.png".format(directory)
     do_binary(whited_out_url, binary_url, 150)
     im_bw = cv2.imread(binary_url)
 
     edges = cv2.Canny(im_bw,50,150,apertureSize=3)
-    lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=25, maxLineGap=50)    
-    print(lines)
+    #lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=25, maxLineGap=50)    
+    lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
+    #print(lines)
     if lines is not None:
         #thin out line array since it found too many lines
         #lines = cut_lines(lines)
@@ -105,6 +106,7 @@ def line_detection(img_url, circles):
             x1, y1, x2, y2 = line[0]
             cv2.line(im_bw, (x1, y1), (x2, y2), (255, 0, 0), 3)
 
-    cv2.imwrite('img/lines.png', im_bw)
+    dst_url = '{}/lines.png'.format(directory)
+    cv2.imwrite(dst_url, im_bw)
     return lines
     

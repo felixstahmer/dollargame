@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def draw_result(connections, lines, img_url):
+def draw_result(connections, lines, img_url, directory):
     # read screenshot
     color_img = cv2.imread(img_url)
     for key in connections: 
@@ -27,7 +27,8 @@ def draw_result(connections, lines, img_url):
         lx1, ly1, lx2, ly2 = line[0]
         cv2.line(color_img, (lx1, ly1), (lx2, ly2), (0, 0, 0), 3)
 
-    # write to image   
-    cv2.imwrite('img/result.png', color_img)
+    # write to image  
+    dst_url = '{}/result.png'.format(directory) 
+    cv2.imwrite(dst_url, color_img)
 
 

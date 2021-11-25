@@ -33,7 +33,7 @@ def color_circle(x, y, r, img):
             rgbImage[int(y_i), int(x_i)] = [184,194,66]
     return rgbImage
 
-def draw_circles(circles, img):
+def draw_circles(circles, img, i):
     for circle in circles: 
         x = circle["x"]
         y = circle["y"]
@@ -43,8 +43,10 @@ def draw_circles(circles, img):
         font = cv2.FONT_HERSHEY_DUPLEX
         thickness = 2
         if number < 0: 
-            color = (0, 0, 255)
-            cv2.circle(img, (int(x),int(y)), int(r), color, -1)
+            color = (39, 49, 187)
+            #color = (0, 0, 0)
+            img = color_circle(int(x), int(y), int(r), img) 
+            cv2.circle(img, (int(x),int(y)), int(r), color, thickness=2, lineType=8, shift=0)
             offset = 25
             cv2.putText(img, str(number), (x-offset,y+offset-15), font, 1, (255,255,255), thickness, cv2.LINE_AA)
         else:
@@ -52,8 +54,9 @@ def draw_circles(circles, img):
             cv2.circle(img, (int(x),int(y)), int(r), (255,255,255), thickness=2, lineType=8, shift=0)
             offset = 20
             cv2.putText(img, str(number), (x-offset+10,y+offset-10), font, 1, (255,255,255), thickness, cv2.LINE_AA)      
-        
-    cv2.imwrite('test_img/test.png', img)
+    
+    dst_url = 'test_img/{}/test.png'.format(i)
+    cv2.imwrite(dst_url, img)
 
 def get_distances(x, y, circles):
     distances = []
@@ -95,20 +98,21 @@ def find_closest(distances, circles):
     #print(i1, i2)
     return [circles[i1], circles[i2]]
 
-def draw_lines(circles, img):
+def draw_lines(circles, img, i):
     for circle in circles: 
         lines = circle["lines"]
         for line in lines: 
-            print(line)
+            #print(line)
             x1 = line["x1"]
             y1 = line["y1"]
             x2 = line["x2"]
             y2 = line["y2"]
             cv2.line(img, (int(x1), int(y1)), (int(x2), int(y2)), (255, 255, 255), 2)
 
-    cv2.imwrite('test_img/test.png', img)
+    dst_url = 'test_img/{}/test.png'.format(i)
+    cv2.imwrite(dst_url, img)
 
-def generate_lines(circles, img):
+def generate_lines(circles, img, i):
     for circle in circles: 
         x = circle["x"]
         y = circle["y"]
@@ -145,10 +149,10 @@ def generate_lines(circles, img):
 
             lines.append(line)
         circle["lines"] = lines
-    draw_lines(circles, img)
+    draw_lines(circles, img, i)
 
 
-def generate_img(amount, background_url): 
+def generate_img(background_url, i): 
     seed(time.clock())
     img = cv2.imread(background_url)
     height, width, channels = img.shape
@@ -160,7 +164,8 @@ def generate_img(amount, background_url):
     y_boundary_high = y_boundary_low*2
 
     circles = []
-    for x in range(amount):
+    c_amount = randint(3, 5)
+    for x in range(c_amount):
         cx, cy = get_coordinates(x_boundary_low, x_boundary_high, y_boundary_low, y_boundary_high)
         c_number = randint(-5,5)
 
@@ -183,8 +188,8 @@ def generate_img(amount, background_url):
         else: 
             circles = [circle]
 
-    generate_lines(circles, img)
-    draw_circles(circles, img)
+    generate_lines(circles, img, i)
+    draw_circles(circles, img, i)
 
 
 def create_background_img(background_url): 

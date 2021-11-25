@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 
 
-def circle_detection(img_url):
+def circle_detection(img_url, dst_directory):
     im = cv2.imread(img_url, cv2.IMREAD_GRAYSCALE)
     rgbImage = cv2.cvtColor(im, cv2.COLOR_RGBA2RGB)
 
@@ -17,11 +17,22 @@ def circle_detection(img_url):
 
     color_img = cv2.imread(img_url)
     green = (0,255,0)
-    if circles is not None:
-        for circle in circles:
-            for x, y, r in circle:
-                cv2.circle(color_img, (int(x),int(y)), int(r), green, 2)
-            
 
-    cv2.imwrite('img/circle.png', color_img)
+    finalCircles = []
+    if circles is not None:
+        for circleList in circles:
+            for circle in circleList:
+                x = circle[0]
+                y = circle[1]
+                r = circle[2]
+
+                #remove circles from the list that have radius that is too small or too big 
+                if r < 30 or r > 40: 
+                    continue
+                cv2.circle(color_img, (int(x),int(y)), int(r), green, 2)
+                finalCircles.append(circle)
+            
+    circles = [finalCircles]
+    dst_url = '{}/circles.png'.format(dst_directory)
+    cv2.imwrite(dst_url, color_img)
     return circles
