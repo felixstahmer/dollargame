@@ -60,10 +60,10 @@ def connection_detection(circles, lines):
 
             offset = 30
 
-            r = c_r + offset
+            r = int(c_r + offset)
 
-            d_1 = math.sqrt(math.pow(c_x - l_x1,2) + math.pow(c_y - l_y1, 2))
-            d_2 = math.sqrt(math.pow(c_x - l_x2,2) + math.pow(c_y - l_y2, 2))
+            d_1 = int(math.sqrt(math.pow(c_x - l_x1,2) + math.pow(c_y - l_y1, 2)))
+            d_2 = int(math.sqrt(math.pow(c_x - l_x2,2) + math.pow(c_y - l_y2, 2)))
 
             if d_1 < r:
                 hit = {"d_1": circle}

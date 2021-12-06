@@ -11,7 +11,6 @@ from pytesseract import Output
 import cv2
 
 def main(orig_url, directory):
-    url = "https://thedollargame.io/game/level/100/100/2"
 
     # find circles and lines between the circles
     circles = circle_detection(orig_url, directory)
@@ -62,12 +61,21 @@ def main(orig_url, directory):
 
     draw_result(connections, lines, orig_url, directory)
 
+    data = {
+        "connections": connections,
+        "circles": circles,
+        "lines": lines
+    }
+
+    return data
+
 
 
 if __name__ == '__main__':
-    #orig_url = take_screenshot(url) # take screenshot of game and return screenshot URL
+    url = "https://thedollargame.io/game/level/100/100/2"
+    orig_url = take_screenshot(url) # take screenshot of game and return screenshot URL
     #orig_url = "img/screenshot.png"
-    orig_url = "test_img/test.png"
+    #orig_url = "test_img/test.png"
 
     directory = 'img'
     

@@ -96,8 +96,8 @@ def line_detection(img_url, circles, directory):
     im_bw = cv2.imread(binary_url)
 
     edges = cv2.Canny(im_bw,50,150,apertureSize=3)
-    #lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=25, maxLineGap=50)    
-    lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
+    lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=50)    
+    #lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
     #print(lines)
     if lines is not None:
         #thin out line array since it found too many lines
