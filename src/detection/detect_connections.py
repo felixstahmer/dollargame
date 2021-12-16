@@ -58,9 +58,10 @@ def connection_detection(circles, lines):
             circle["index"] = i
             #del circle["dtype"]
 
-            offset = 30
+            offset = 40
 
             r = int(c_r + offset)
+            #r = 50
 
             d_1 = int(math.sqrt(math.pow(c_x - l_x1,2) + math.pow(c_y - l_y1, 2)))
             d_2 = int(math.sqrt(math.pow(c_x - l_x2,2) + math.pow(c_y - l_y2, 2)))
@@ -84,6 +85,14 @@ def connection_detection(circles, lines):
             if len(connections[index]) <= 1:
                 del connections[index] 
     
+    # for key in connections: 
+    #     connection = connections[key]
+    #     print("line {}".format(key))
+    #     d_1 = connection["d_1"]["number"]
+    #     d_2 = connection["d_2"]["number"]
+
+    #    print(d_1, d_2)
+
     clean_connections = cleanup_connections(connections)
 
     return clean_connections

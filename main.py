@@ -72,9 +72,9 @@ def main(orig_url, directory):
 
 
 if __name__ == '__main__':
-    url = "https://thedollargame.io/game/level/100/100/2"
-    orig_url = take_screenshot(url) # take screenshot of game and return screenshot URL
-    #orig_url = "img/screenshot.png"
+    #url = "https://thedollargame.io/game/level/100/100/2"
+    #orig_url = take_screenshot(url) # take screenshot of game and return screenshot URL
+    orig_url = "img/archive/Level2/screenshot.png"
     #orig_url = "test_img/test.png"
 
     directory = 'img'
