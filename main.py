@@ -1,82 +1,86 @@
-from src.selenium.screenshot import take_screenshot
-from src.vc.binary import do_binary
-from src.vc.crop import crop_image
-from src.detection.detect_circles import circle_detection 
-from src.detection.detect_lines import line_detection
-from src.detection.detect_connections import connection_detection
+import sys
+
 from src.draw.draw_result import draw_result
 
-import pytesseract as tes
-from pytesseract import Output
-import cv2
-
-def main(orig_url, directory):
-
-    # find circles and lines between the circles
-    circles = circle_detection(orig_url, directory)
-    lines = line_detection(orig_url, circles, directory)
+from src.game_elements.node.node import Node
+from src.game_elements.node.node_list import NodeList
+from src.vc.vc_controller import VisualComputingController
+from src.game.game_controller import GameController
+from src.detection.detection_controller import DetectionController
+from src.directory.create_directory import FileManager
+from src.minizinc.minizinc_controller import MinizincController
 
 
-    # Create Image for each circle 
 
-    results = []
+def main():
+    base_dir = "activegame"
+    file_manager = FileManager(base_dir)
+    
+    AMOUNT_OF_LEVELS = 10
 
-    for circle_list in circles:
-        for index, circle in enumerate(circle_list):
-            x = circle[0]
-            y = circle[1]
-            r = circle[2] 
-            offset = 10 # offset to cut close to the actual number
+    level_directories = file_manager.create_directories_for_active_game(AMOUNT_OF_LEVELS)
+    game_controller = GameController()
+    # level_directories = [1]
+    
+    for index, level_directory in enumerate(level_directories): 
+        level_index = index + 1
 
-            r = r - offset
+        print("Calculating for Level {}!".format(level_index))
+        
+        screenshot_dir = "{}/Level{}.png".format(level_directory, level_index)
+        # level_directory = "activegame/Level11"
+        # screenshot_dir = "activegame/Level11/Level11.png"
+        game_controller.take_screenshot(screenshot_dir)
 
-            start_x = int(x - r)
-            start_y = int(y - r)
+        detection_controller = DetectionController()
+        node_list = detection_controller.detect_nodes(screenshot_dir, level_directory)
+        line_list = detection_controller.detect_lines(screenshot_dir, level_directory, node_list)
 
-            w = int(r * 2)
-            h = int(r * 2)
+        connection_list = detection_controller.detect_connections(level_directory, node_list, line_list)
+        connection_list.find_unique_connections()
 
-            dst_url = "{}/circles/{}.png".format(directory, index)
+        draw_result(connection_list, screenshot_dir, level_directory)
 
-            # cut every the original image to the circles and save them in img/circles
-            circle_img_url = crop_image(orig_url, dst_url, start_x, start_y, w, h)
+        connection_list.calculate_constraints()
 
-            # convert every circle image to a binary image 
-            do_binary(circle_img_url, circle_img_url, 150)
+        minizinc_controller = MinizincController()
+        minizinc_controller.execute_minizinc(node_list)
 
-            # do number detection on every circle image
-            number = tes.image_to_string(circle_img_url,  config='--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789')
-            
-            # save number alongside circle coordinates and radius
-            result = number.split(sep='\n')
+        game_controller.play(node_list)
+        game_controller.click_next_level_button()
 
-            #print(number)
-            
-            if result[0] is not '\x0c':
-                results.append({"number": result[0], "circle": circle})
-            else:
-                continue
+def check_single_level(level_number):
+    base_dir = "activegame"
+    level_name = "Level{}".format(level_number)
+    screenshot_dir = "{}/{}/{}.png".format(base_dir, level_name, level_name)
+    level_directory = "{}/{}".format(base_dir, level_name)
+    # screenshot_dir = "activegame/Level11/Level11.png"
 
-    connections = connection_detection(results, lines)
+    detection_controller = DetectionController()
+    node_list = detection_controller.detect_nodes(screenshot_dir, level_directory)
+    line_list = detection_controller.detect_lines(screenshot_dir, level_directory, node_list)
 
-    draw_result(connections, lines, orig_url, directory)
+    connection_list = detection_controller.detect_connections(level_directory, node_list, line_list)
+    connection_list.find_unique_connections()
 
-    data = {
-        "connections": connections,
-        "circles": circles,
-        "lines": lines
-    }
+    draw_result(connection_list, screenshot_dir, level_directory)
 
-    return data
+    connection_list.calculate_constraints()
 
-
+    minizinc_controller = MinizincController()
+    minizinc_controller.execute_minizinc(node_list)
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     #url = "https://thedollargame.io/game/level/100/100/2"
     #orig_url = take_screenshot(url) # take screenshot of game and return screenshot URL
     orig_url = "img/archive/Level2/screenshot.png"
     #orig_url = "test_img/test.png"
+=======
+    if len(sys.argv) > 1:
+        level_number = int(sys.argv[1])
+        check_single_level(level_number)
+    else:
+        main()
+>>>>>>> da76719 (solves first 10 levels on fullscreen)
 
-    directory = 'img'
-    
-    main(orig_url, directory)
