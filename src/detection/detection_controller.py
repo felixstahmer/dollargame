@@ -19,7 +19,7 @@ class DetectionController():
         for line in line_list.line_list:
             connection = Connection(line)
             for node in node_list.node_list:
-                offset = 25
+                offset = 23
                 r = int(node.radius + offset)
 
                 distance_1 = int(math.sqrt(math.pow(node.x - line.x1,2) + math.pow(node.y - line.y1, 2)))
@@ -50,7 +50,9 @@ class DetectionController():
 
         im_bw = cv2.imread(binary_url)
         edges = cv2.Canny(im_bw,50,150,apertureSize=3)
-        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
+        # edges = cv2.Canny(im_bw,100,200,apertureSize=3)
+        # lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
+        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=11, minLineLength=10, maxLineGap=20)
 
         line_list = LineList()
         if lines is not None:
@@ -63,8 +65,11 @@ class DetectionController():
                 line_obj = Line(x1, y1, x2, y2)
                 line_list.add_line(line_obj)
         
+
         dst_url = '{}/lines.png'.format(dst_directory)
         cv2.imwrite(dst_url, im_bw)
+
+        line_list.check_for_duplicates()
         
         return line_list
         

@@ -36,7 +36,7 @@ class VisualComputingController():
         y_edge = int(height/4)
 
         # white out the top of the screen
-        for y in range(y_edge):
+        for y in range(height):
             for x in range(x_edge):
                 #set to background color
                 rgbImage[y, x] = [0,0,0]
@@ -45,7 +45,7 @@ class VisualComputingController():
         y_value = height - y_edge
         x_value = width - x_edge
 
-        for y in range(y_value, height):
+        for y in range(height):
             for x in range(x_value, width):
                 rgbImage[y, x] = [0,0,0]
                 rgbImage[x, y] = [0,0,0]
@@ -55,7 +55,7 @@ class VisualComputingController():
     def white_out_top_of_screen(self, img):
         height, width, channels = img.shape
         #get a quarter of the height to white that part out 
-        white_out_edge = int(height/4)
+        white_out_edge = int(height/20) * 3
 
         # white out the top of the screen
         for y in range(white_out_edge):
@@ -63,4 +63,5 @@ class VisualComputingController():
                 #set to background color
                 img[y, x] = [184,194,66]
 
+        # cv2.imwrite("whited_out_test.png", img)
         return img
