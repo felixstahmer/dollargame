@@ -16,7 +16,7 @@ def main():
     base_dir = "activegame"
     file_manager = FileManager(base_dir)
     
-    AMOUNT_OF_LEVELS = 10
+    AMOUNT_OF_LEVELS = 15
 
     level_directories = file_manager.create_directories_for_active_game(AMOUNT_OF_LEVELS)
     game_controller = GameController()
@@ -71,16 +71,9 @@ def check_single_level(level_number):
     minizinc_controller.execute_minizinc(node_list)
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    #url = "https://thedollargame.io/game/level/100/100/2"
-    #orig_url = take_screenshot(url) # take screenshot of game and return screenshot URL
-    orig_url = "img/archive/Level2/screenshot.png"
-    #orig_url = "test_img/test.png"
-=======
     if len(sys.argv) > 1:
         level_number = int(sys.argv[1])
         check_single_level(level_number)
     else:
         main()
->>>>>>> da76719 (solves first 10 levels on fullscreen)
 

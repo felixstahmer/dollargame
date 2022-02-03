@@ -1,5 +1,6 @@
 import cv2
 import pytesseract as tes
+import numpy as np
 
 from src.vc.vc_controller import VisualComputingController
 
@@ -19,12 +20,18 @@ class Node():
     def detect_number(self, img_url):
         vc_controller = VisualComputingController()
         
-        threshold = 200
+        threshold = 190
         tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
         tries = 0
-        while(self.number == None and threshold < 230):
+        while(self.number == None and threshold < 210):
             vc_controller.do_binary(self.directory, self.directory, threshold)
+            # im_bw = cv2.imread(self.directory)
+            # edges = cv2.Canny(im_bw,100,200,apertureSize=7)
+            # cv2.imwrite(self.directory, edges)
             # vc_controller.do_thin(self.directory, self.directory)
+            # kernel = np.ones((3, 3), np.uint8)
+            # img = cv2.dilate(im_bw, kernel, iterations=1)
+            # cv2.imwrite(self.directory, img)
             result = tes.image_to_string(self.directory,  config=tesseract_config_string)  
             number = result.split(sep='\n')
             if number[0] is not '\x0c':
@@ -42,9 +49,13 @@ class Node():
                     else: 
                         self.number = None
                 # if number_to_check == "4" and tries == 0: 
-                #     tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
-                #     tries = tries + 1
-                #     self.save_img(img_url, 6)
+                    # tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
+                    # tries = tries + 1
+                    # self.save_img(img_url, )
+                    # self.number = None
+                    # if threshold == 230:
+                    #     self.number = 4
+                
                 if number_to_check == "-" or self.number == "-":
                     self.number = None
             else: 
