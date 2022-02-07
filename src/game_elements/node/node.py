@@ -48,6 +48,8 @@ class Node():
                         self.number = number[0]
                     else: 
                         self.number = None
+                    if number_to_check == "41":
+                        self.number = "1"
                 # if number_to_check == "4" and tries == 0: 
                     # tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
                     # tries = tries + 1
@@ -61,7 +63,7 @@ class Node():
                     # threshold = 170
             else: 
                 self.number = None
-            threshold += 10
+            threshold += 5
         print("Final Number: {}".format(self.number))
 
     def save_img(self, img_url, offset):

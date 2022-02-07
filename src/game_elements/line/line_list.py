@@ -23,11 +23,31 @@ class LineList():
                     d1 = int(math.sqrt(math.pow(line.x1 - c_line.x1,2) + math.pow(line.y1 - c_line.y1, 2)))
                     d2 = int(math.sqrt(math.pow(line.x2 - c_line.x2,2) + math.pow(line.y2 - c_line.y2, 2)))
                     d3 = int(math.sqrt(math.pow(line.x1 - c_line.x2,2) + math.pow(line.y1 - c_line.y2, 2)))
+                    d4 = int(math.sqrt(math.pow(line.x2 - c_line.x1,2) + math.pow(line.y2 - c_line.y1, 2)))
 
-                    c = 2
+                    c = 10
+                    ch = 15
 
-                    if d1 < c or d2 < c or d3 < c:
+                    # calculate increase of the two lines
+                    # if they have close start/endpoint and have similar increase 
+                    # then remove the shorter line and leave the longer one
+                    m1 = 1
+                    m2 = 1
+
+                    if line.x1 - line.x2 != 0:
+                        m1 = abs((line.y1 - line.y2))/abs((line.x1 - line.x2))
+                    if c_line.x1 - c_line.x2 != 0:
+                        m2 = abs((c_line.y1 - c_line.y2))/abs((c_line.x1 - c_line.x2))
+
+                    d = m2 - m1
+                    cd = 10
+
+                    if (d1 < c or d2 < c or d3 < c or d4 < c) and (d < cd and d > -cd):
+
                         found = True
+                        if line.length > c_line.length:
+                            cleaned_up_lines.remove(c_line)
+                            cleaned_up_lines.append(line)
                 if found: 
                     continue
                 else: 

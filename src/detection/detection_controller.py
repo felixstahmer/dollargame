@@ -98,7 +98,8 @@ class DetectionController():
                     
                     if r < 30 or r > 40: 
                         continue
-
+                    
+                    r = 35
                     node_directory = "{}/nodes/{}.png".format(dst_directory, index)
                     node_obj = Node(x, y, r, node_directory, index)
                     node_obj.save_img(img_url, 11)
