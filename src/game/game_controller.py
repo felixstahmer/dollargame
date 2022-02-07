@@ -42,10 +42,10 @@ class GameController():
         time.sleep(2)
         
     def click_next_level_button(self):
-        time.sleep(5)
+        time.sleep(3)
         button_for_next_level = "BackBtn_BackBtn__KQPMr"
         self.click_button(button_for_next_level)
-        time.sleep(5)
+        time.sleep(7)
 
     def click_button(self, classname):
         try:
