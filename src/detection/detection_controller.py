@@ -19,7 +19,7 @@ class DetectionController():
         for line in line_list.line_list:
             connection = Connection(line)
             for node in node_list.node_list:
-                offset = 23
+                offset = 30
                 r = int(node.radius + offset)
 
                 distance_1 = int(math.sqrt(math.pow(node.x - line.x1,2) + math.pow(node.y - line.y1, 2)))
@@ -96,24 +96,19 @@ class DetectionController():
                     y = node[1]
                     r = node[2]
                     
-                    if r < 25 or r > 40: 
+                    if r < 30 or r > 40: 
                         continue
 
                     node_directory = "{}/nodes/{}.png".format(dst_directory, index)
                     node_obj = Node(x, y, r, node_directory, index)
-                    node_obj.save_img(img_url, 8)
+                    node_obj.save_img(img_url, 11)
                     vc_controller.improve_node_img(node_obj)
                     node_obj.detect_number(img_url)
                     
-
                     if node_obj.number != None:
                         node_list.add_node(node_obj)
-
-                    #remove circles from the list that have radius that is too small or too big 
-                    # if r < 20 or r > 40: 
-                    #     continue
+                        cv2.circle(color_img, (int(x),int(y)), int(r), green, 2)
                     
-                    cv2.circle(color_img, (int(x),int(y)), int(r), green, 2)
 
         dst_url = '{}/nodes.png'.format(dst_directory)
         cv2.imwrite(dst_url, color_img)

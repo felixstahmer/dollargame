@@ -35,11 +35,11 @@ class Node():
             result = tes.image_to_string(self.directory,  config=tesseract_config_string)  
             number = result.split(sep='\n')
             if number[0] is not '\x0c':
-                print("Initial Number detected: {}".format(number[0]))
+                print("Number detected: {}".format(number[0]))
                 number_to_check = str(number[0])
                 isNegative = number_to_check[0] == "-"
                 if isNegative == True:
-                    if len(number_to_check[1:]) < 2:
+                    if len(number_to_check[1:]) < 2: 
                         self.number = number[0]
                     else: 
                         self.number = None
@@ -58,15 +58,14 @@ class Node():
                 
                 if number_to_check == "-" or self.number == "-":
                     self.number = None
+                    # threshold = 170
             else: 
                 self.number = None
             threshold += 10
-        print("Final Number detected: {}".format(self.number))
+        print("Final Number: {}".format(self.number))
 
     def save_img(self, img_url, offset):
         vc_controller = VisualComputingController()
-        
-        # offset = 9 # offset to cut close to the actual number
 
         r = self.radius - offset
         # r = self.radius - 8

@@ -32,8 +32,8 @@ class VisualComputingController():
         rgbImage = cv2.cvtColor(im, cv2.COLOR_RGBA2RGB)
         height, width, channels = rgbImage.shape
 
-        x_edge = int(width/4)
-        y_edge = int(height/4)
+        x_edge = int(width/5)
+        y_edge = int(height/5)
 
         # white out the top of the screen
         for y in range(height):
