@@ -49,10 +49,10 @@ class DetectionController():
         vc_controller.do_binary(whited_out_url, binary_url, 180)
 
         im_bw = cv2.imread(binary_url)
-        edges = cv2.Canny(im_bw,50,150,apertureSize=3)
+        edges = cv2.Canny(im_bw,50,150,apertureSize=7)
         # edges = cv2.Canny(im_bw,100,200,apertureSize=3)
         # lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
-        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=11, minLineLength=10, maxLineGap=20)
+        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
 
         line_list = LineList()
         if lines is not None:

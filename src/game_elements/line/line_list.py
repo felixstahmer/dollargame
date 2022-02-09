@@ -26,13 +26,12 @@ class LineList():
                     d4 = int(math.sqrt(math.pow(line.x2 - c_line.x1,2) + math.pow(line.y2 - c_line.y1, 2)))
 
                     c = 10
-                    ch = 15
 
                     # calculate increase of the two lines
                     # if they have close start/endpoint and have similar increase 
                     # then remove the shorter line and leave the longer one
-                    m1 = 1
-                    m2 = 1
+                    m1 = 0
+                    m2 = 0
 
                     if line.x1 - line.x2 != 0:
                         m1 = abs((line.y1 - line.y2))/abs((line.x1 - line.x2))

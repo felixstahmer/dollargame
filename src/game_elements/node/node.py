@@ -84,7 +84,7 @@ class Node():
     def white_out(self, img):
         rgbImage = cv2.cvtColor(img, cv2.COLOR_RGBA2RGB)
 
-        offset = 3 # to white out the whole circle on specific image
+        offset = 2 # to white out the whole circle on specific image
         r = self.radius + offset
 
         start_x = int(self.x - r)

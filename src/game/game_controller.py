@@ -32,6 +32,8 @@ class GameController():
         self.browser.get(url)
 
         time.sleep(5)  # wait 5 seconds for the site to load.
+        # levelString = """"{'worldId':100,'packId':100,'levelId':2}");"""
+        # self.browser.execute_script("window.localStorage.setItem('lastVisitedLevel__0.0.8',{}".format(levelString))
         self.el = self.browser.find_element_by_id("root")
         self.action = ActionChains(self.browser)
         self.skip_tutorial()

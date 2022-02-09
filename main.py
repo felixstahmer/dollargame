@@ -16,7 +16,7 @@ def main():
     base_dir = "activegame"
     file_manager = FileManager(base_dir)
     
-    AMOUNT_OF_LEVELS = 30
+    AMOUNT_OF_LEVELS = 50
 
     level_directories = file_manager.create_directories_for_active_game(AMOUNT_OF_LEVELS)
     game_controller = GameController()
