@@ -8,6 +8,10 @@ class Line():
         self.y2 = y2
         self.length = int(math.sqrt(math.pow(self.x1 - self.x2,2) + math.pow(self.y1 - self.y2, 2)))
 
+        if self.x1 - self.x2 != 0: 
+            self.m = abs((self.y1 - self.y2))/abs((self.x1 - self.x2))
+        else: 
+            self.m = 0
     
 
 

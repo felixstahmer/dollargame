@@ -47,7 +47,12 @@ def main():
         minizinc_controller.execute_minizinc(node_list)
 
         game_controller.play(node_list)
-        game_controller.click_next_level_button()
+        
+        if level_index == 33:
+            next_world_url = "https://thedollargame.io/game/level/100/200/1"
+            game_controller.go_to_next_world(next_world_url)
+        else: 
+            game_controller.click_next_level_button()
 
 def check_single_level(level_number):
     base_dir = "activegame"

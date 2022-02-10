@@ -34,8 +34,6 @@ class GameController():
         time.sleep(5)  # wait 5 seconds for the site to load.
         # levelString = """"{'worldId':100,'packId':100,'levelId':2}");"""
         # self.browser.execute_script("window.localStorage.setItem('lastVisitedLevel__0.0.8',{}".format(levelString))
-        self.el = self.browser.find_element_by_id("root")
-        self.action = ActionChains(self.browser)
         self.skip_tutorial()
 
     def skip_tutorial(self):
@@ -60,6 +58,8 @@ class GameController():
         self.browser.save_screenshot(dst_url_for_sreenshot)
 
     def play(self, nodes): 
+        self.el = self.browser.find_element_by_id("root")
+        self.action = ActionChains(self.browser)
         for node in nodes.node_list: 
             for i in range(node.amount_of_clicks):
                 self.action.move_to_element_with_offset(self.el, node.x, node.y)
@@ -67,3 +67,6 @@ class GameController():
                 self.action.perform()
                 time.sleep(1)
 
+    def go_to_next_world(self, url):
+        self.browser.get(url)
+        time.sleep(10)

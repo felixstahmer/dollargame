@@ -46,13 +46,14 @@ class DetectionController():
         cv2.imwrite(whited_out_url, whited_out_img)
         
         binary_url = "{}/binary_for_line_detection.png".format(dst_directory)
-        vc_controller.do_binary(whited_out_url, binary_url, 180)
+        # vc_controller.do_binary(whited_out_url, binary_url, 180)
+        vc_controller.do_binary(whited_out_url, binary_url, 200)
 
         im_bw = cv2.imread(binary_url)
         edges = cv2.Canny(im_bw,50,150,apertureSize=7)
         # edges = cv2.Canny(im_bw,100,200,apertureSize=3)
         # lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
-        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
+        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=10, minLineLength=10, maxLineGap=20)
 
         line_list = LineList()
         if lines is not None:
