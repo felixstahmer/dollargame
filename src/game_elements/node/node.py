@@ -5,12 +5,12 @@ import numpy as np
 from src.vc.vc_controller import VisualComputingController
 
 class Node():
-    def __init__(self, x, y, radius, directory, index):
+    def __init__(self, x, y, radius, directory):
         self.x = x
         self.y = y
         self.radius = radius
         self.directory = directory
-        self.index = index
+        self.index = None
         self.number = None
         self.constraint_list = []
 

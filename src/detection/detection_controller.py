@@ -108,7 +108,7 @@ class DetectionController():
                     
                     r = 35
                     node_directory = "{}/nodes/{}.png".format(dst_directory, index)
-                    node_obj = Node(x, y, r, node_directory, index)
+                    node_obj = Node(x, y, r, node_directory)
                     node_obj.save_img(img_url, 11)
                     vc_controller.improve_node_img(node_obj)
                     node_obj.detect_number(img_url)
@@ -116,7 +116,9 @@ class DetectionController():
                     if node_obj.number != None:
                         node_list.add_node(node_obj)
                         cv2.circle(color_img, (int(x),int(y)), int(r), green, 2)
-                    
+
+        for node_index, node in enumerate(node_list.node_list):
+            node.index = node_index
 
         dst_url = '{}/nodes.png'.format(dst_directory)
         cv2.imwrite(dst_url, color_img)
