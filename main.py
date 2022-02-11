@@ -12,11 +12,12 @@ from src.minizinc.minizinc_controller import MinizincController
 def main():
     base_dir = "activegame"
     
-    AMOUNT_OF_WORLDS = 2
+    AMOUNT_OF_WORLDS = 3
     AMOUNT_OF_LEVELS_WORLD1 = 33
     AMOUNT_OF_LEVELS_WORLD2 = 50
+    AMOUNT_OF_LEVELS_WORLD3 = 50
 
-    LEVELS_PER_WORLD = [AMOUNT_OF_LEVELS_WORLD1, AMOUNT_OF_LEVELS_WORLD2]
+    LEVELS_PER_WORLD = [AMOUNT_OF_LEVELS_WORLD1, AMOUNT_OF_LEVELS_WORLD2, AMOUNT_OF_LEVELS_WORLD3]
   
     game_controller = GameController()
 

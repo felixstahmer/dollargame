@@ -20,7 +20,7 @@ class Node():
     def detect_number(self, img_url):
         vc_controller = VisualComputingController()
         
-        threshold = 190
+        threshold = 195
         tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
         tries = 0
         while(self.number == None and threshold < 210):
@@ -50,14 +50,6 @@ class Node():
                         self.number = None
                     if number_to_check == "41":
                         self.number = "1"
-                # if number_to_check == "4" and tries == 0: 
-                    # tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
-                    # tries = tries + 1
-                    # self.save_img(img_url, )
-                    # self.number = None
-                    # if threshold == 230:
-                    #     self.number = 4
-                
                 if number_to_check == "-" or self.number == "-":
                     self.number = None
                     # threshold = 170
