@@ -11,9 +11,15 @@ from src.game_elements.connection.connection import Connection
 from src.game_elements.connection.connection_list import ConnectionList
 
 
+threshold_per_world = [10, 10, 8, 8]
+min_line_length_per_world = [10, 10, 4, 5]
 
+class DetectionController():
+    def __init__(self, world_index):
+        self.world_index = world_index
+        self.threshhold = threshold_per_world[self.world_index]
+        self.min_line_length = min_line_length_per_world[self.world_index]
 
-class DetectionController(): 
     def detect_connections(self, dst_directory, node_list, line_list):
         connection_list = ConnectionList()
         for line in line_list.line_list:
@@ -53,7 +59,7 @@ class DetectionController():
         edges = cv2.Canny(im_bw,50,150,apertureSize=7)
         # edges = cv2.Canny(im_bw,100,200,apertureSize=3)
         # lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
-        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=10, minLineLength=10, maxLineGap=20)
+        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=self.threshhold, minLineLength=self.min_line_length, maxLineGap=20)
 
         line_list = LineList()
         if lines is not None:
