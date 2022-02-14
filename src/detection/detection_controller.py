@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import pytesseract as tes
 import math
 
 from src.vc.vc_controller import VisualComputingController
@@ -13,12 +14,14 @@ from src.game_elements.connection.connection_list import ConnectionList
 
 threshold_per_world = [10, 10, 8, 8]
 min_line_length_per_world = [10, 10, 4, 5]
+threshold_for_number_detection_per_world = [195, 195, 200, 195]
 
 class DetectionController():
     def __init__(self, world_index):
         self.world_index = world_index
         self.threshhold = threshold_per_world[self.world_index]
         self.min_line_length = min_line_length_per_world[self.world_index]
+        self.threshold_for_number_detection = threshold_for_number_detection_per_world[self.world_index]
 
     def detect_connections(self, dst_directory, node_list, line_list):
         connection_list = ConnectionList()
@@ -111,7 +114,7 @@ class DetectionController():
                     node_obj = Node(x, y, r, node_directory)
                     node_obj.save_img(img_url, 11)
                     vc_controller.improve_node_img(node_obj)
-                    node_obj.detect_number(img_url)
+                    node_obj = self.detect_number(node_obj)
                     
                     if node_obj.number != None:
                         node_list.add_node(node_obj)
@@ -125,3 +128,38 @@ class DetectionController():
 
         return node_list
                     
+    def detect_number(self, node):
+        vc_controller = VisualComputingController()
+
+        threshold = self.threshold_for_number_detection
+        tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
+
+        while(node.number == None and threshold < 210):
+            vc_controller.do_binary(node.directory, node.directory, threshold)
+
+            result = tes.image_to_string(node.directory,  config=tesseract_config_string)  
+            number = result.split(sep='\n')
+
+            if number[0] is not '\x0c':
+                number_to_check = str(number[0])
+                isNegative = number_to_check[0] == "-"
+                if isNegative == True:
+                    if len(number_to_check[1:]) < 2: 
+                        node.number = number[0]
+                    else: 
+                        node.number = None
+                else: 
+                    if len(number_to_check) < 2:
+                        node.number = number[0]
+                    else: 
+                        node.number = None
+                    if number_to_check == "41":
+                        node.number = "1"
+                if number_to_check == "-" or node.number == "-":
+                    node.number = None
+            else: 
+                node.number = None
+
+            threshold += 5
+
+        return node

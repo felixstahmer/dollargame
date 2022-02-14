@@ -20,9 +20,8 @@ class Node():
     def detect_number(self, img_url):
         vc_controller = VisualComputingController()
         
-        threshold = 195
+        threshold = 198
         tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
-        tries = 0
         while(self.number == None and threshold < 210):
             vc_controller.do_binary(self.directory, self.directory, threshold)
             # im_bw = cv2.imread(self.directory)

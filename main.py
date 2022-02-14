@@ -180,9 +180,9 @@ if __name__ == '__main__':
             if world_index == None or level_index == None:
                 print("Please provide a level and world index")
             else:
-                if mode == "start_at_specific_level":
+                if mode == "start_at_level":
                     start_at_specific_level(world_index, level_index)
-                elif mode == "calculate_specific_level":
+                elif mode == "calculate_level":
                     check_single_level(world_index, level_index)
     else:
         print("Please provide a mode argument: standard, start_at_specific_level, calculate_specific_level")
