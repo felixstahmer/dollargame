@@ -9,7 +9,7 @@ class MinizincController():
         for index in range(len(nodes.node_list)):
             letter = ascii_lowercase[index]
             letter_string = """
-            var 0..15: {};
+            var 0..20: {};
             """.format(letter)
             self.model.add_string(letter_string)
 

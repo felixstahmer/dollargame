@@ -5,12 +5,12 @@ import numpy as np
 from src.vc.vc_controller import VisualComputingController
 
 class Node():
-    def __init__(self, x, y, radius, directory, index):
+    def __init__(self, x, y, radius, directory):
         self.x = x
         self.y = y
         self.radius = radius
         self.directory = directory
-        self.index = index
+        self.index = None
         self.number = None
         self.constraint_list = []
 
@@ -20,9 +20,8 @@ class Node():
     def detect_number(self, img_url):
         vc_controller = VisualComputingController()
         
-        threshold = 190
+        threshold = 198
         tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
-        tries = 0
         while(self.number == None and threshold < 210):
             vc_controller.do_binary(self.directory, self.directory, threshold)
             # im_bw = cv2.imread(self.directory)
@@ -48,20 +47,14 @@ class Node():
                         self.number = number[0]
                     else: 
                         self.number = None
-                # if number_to_check == "4" and tries == 0: 
-                    # tesseract_config_string = "--psm 10 --oem 1 -c tessedit_char_whitelist=-0123456789"
-                    # tries = tries + 1
-                    # self.save_img(img_url, )
-                    # self.number = None
-                    # if threshold == 230:
-                    #     self.number = 4
-                
+                    if number_to_check == "41":
+                        self.number = "1"
                 if number_to_check == "-" or self.number == "-":
                     self.number = None
                     # threshold = 170
             else: 
                 self.number = None
-            threshold += 10
+            threshold += 5
         print("Final Number: {}".format(self.number))
 
     def save_img(self, img_url, offset):
@@ -82,7 +75,7 @@ class Node():
     def white_out(self, img):
         rgbImage = cv2.cvtColor(img, cv2.COLOR_RGBA2RGB)
 
-        offset = 3 # to white out the whole circle on specific image
+        offset = 1 # to white out the whole circle on specific image
         r = self.radius + offset
 
         start_x = int(self.x - r)

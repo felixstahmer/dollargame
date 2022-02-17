@@ -32,8 +32,8 @@ class GameController():
         self.browser.get(url)
 
         time.sleep(5)  # wait 5 seconds for the site to load.
-        self.el = self.browser.find_element_by_id("root")
-        self.action = ActionChains(self.browser)
+        # levelString = """"{'worldId':100,'packId':100,'levelId':2}");"""
+        # self.browser.execute_script("window.localStorage.setItem('lastVisitedLevel__0.0.8',{}".format(levelString))
         self.skip_tutorial()
 
     def skip_tutorial(self):
@@ -58,6 +58,8 @@ class GameController():
         self.browser.save_screenshot(dst_url_for_sreenshot)
 
     def play(self, nodes): 
+        self.el = self.browser.find_element_by_id("root")
+        self.action = ActionChains(self.browser)
         for node in nodes.node_list: 
             for i in range(node.amount_of_clicks):
                 self.action.move_to_element_with_offset(self.el, node.x, node.y)
@@ -65,3 +67,35 @@ class GameController():
                 self.action.perform()
                 time.sleep(1)
 
+    def get_url(self, url):
+        self.browser.get(url)
+        time.sleep(10)
+
+    def write_to_local_storage(self):
+        with open('local_storage.txt') as f:
+            lines = f.readlines()
+            self.user_id = lines[0].rstrip('\n')
+            self.last_visited_level = lines[1]
+            
+        user_id_string = "localStorage.setItem('userId', '{}');".format(self.user_id)
+        last_visited_string = "localStorage.setItem('lastVisitedLevel__0.0.8', '{}');".format(self.last_visited_level)
+        print(user_id_string)
+        print(last_visited_string)
+        self.browser.execute_script(user_id_string)
+        self.browser.execute_script(last_visited_string)
+        # time.sleep(5)
+
+
+    def write_storage_to_file(self):
+        with open('local_storage.txt', 'w') as f:
+            f.write(self.user_id + '\n')
+            # f.write('\n')
+            f.write(self.last_visited_level)
+
+    def retrieve_local_storage(self): 
+        userId = self.browser.execute_script("return localStorage.getItem('userId')")
+        last_visited_level = self.browser.execute_script("return localStorage.getItem('lastVisitedLevel__0.0.8')")
+        self.user_id = userId
+        self.last_visited_level = last_visited_level
+        self.write_storage_to_file()
+        
