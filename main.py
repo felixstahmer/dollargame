@@ -49,12 +49,12 @@ def standard_game():
             connection_list = detection_controller.detect_connections(level_directory, node_list, line_list)
             connection_list.find_unique_connections()
 
-            draw_result(connection_list, screenshot_dir, level_directory)
-
             connection_list.calculate_constraints()
 
             minizinc_controller = MinizincController()
             minizinc_controller.execute_minizinc(node_list)
+
+            draw_result(connection_list, screenshot_dir, level_directory)
 
             game_controller.play(node_list)
             
@@ -113,12 +113,12 @@ def start_at_specific_level(world_number, level_number):
             connection_list = detection_controller.detect_connections(level_directory, node_list, line_list)
             connection_list.find_unique_connections()
 
-            draw_result(connection_list, screenshot_dir, level_directory)
-
             connection_list.calculate_constraints()
 
             minizinc_controller = MinizincController()
             minizinc_controller.execute_minizinc(node_list)
+
+            draw_result(connection_list, screenshot_dir, level_directory)
 
             game_controller.play(node_list)
             
@@ -149,12 +149,12 @@ def check_single_level(world_number, level_number):
     connection_list = detection_controller.detect_connections(level_directory, node_list, line_list)
     connection_list.find_unique_connections()
 
-    draw_result(connection_list, screenshot_dir, level_directory)
-
     connection_list.calculate_constraints()
 
     minizinc_controller = MinizincController()
     minizinc_controller.execute_minizinc(node_list)
+
+    draw_result(connection_list, screenshot_dir, level_directory)
 
 
 
