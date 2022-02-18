@@ -158,7 +158,10 @@ def check_single_level(world_number, level_number):
 
 
 
+    connection_list.calculate_constraints()
 
+    minizinc_controller = MinizincController()
+    minizinc_controller.execute_minizinc(node_list)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
