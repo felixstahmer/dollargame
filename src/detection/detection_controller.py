@@ -60,6 +60,8 @@ class DetectionController():
 
         im_bw = cv2.imread(binary_url)
         edges = cv2.Canny(im_bw,50,150,apertureSize=7)
+        canny_url = "{}/canny_for_line_detection.png".format(dst_directory)
+        cv2.imwrite(canny_url, edges)
         # edges = cv2.Canny(im_bw,100,200,apertureSize=3)
         # lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
         lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=self.threshhold, minLineLength=self.min_line_length, maxLineGap=20)
@@ -70,14 +72,14 @@ class DetectionController():
             #lines = cut_lines(lines)
             for line in lines:
                 x1, y1, x2, y2 = line[0]
-                cv2.line(im_bw, (x1, y1), (x2, y2), (255, 0, 0), 3)
+                cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), 3)
 
                 line_obj = Line(x1, y1, x2, y2)
                 line_list.add_line(line_obj)
         
 
         dst_url = '{}/lines.png'.format(dst_directory)
-        cv2.imwrite(dst_url, im_bw)
+        cv2.imwrite(dst_url, img)
 
         line_list.check_for_duplicates()
         
