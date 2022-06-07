@@ -15,11 +15,11 @@ class MinizincController():
 
         
         for index, node in enumerate(nodes.node_list): 
-            amount_of_constraints = len(node.constraint_list)
+            amount_of_constraints = len(node.neighbors)
             own_letter = ascii_lowercase[index]
             constraint_string = "constraint {} -{}*{}".format(node.number, amount_of_constraints, own_letter)
 
-            for constraint in node.constraint_list:
+            for constraint in node.neighbors:
                 letter = ascii_lowercase[constraint.index]
                 constraint_string += "+{}".format(letter)
             

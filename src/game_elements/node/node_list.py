@@ -21,6 +21,4 @@ class NodeList():
         for node in self.node_list:
             node.save_img(img_url)
 
-    # def calculate_constraints(self): 
-    #     for node in  self.node_list: 
              

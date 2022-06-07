@@ -19,7 +19,7 @@ threshold_for_number_detection_per_world = [195, 195, 200, 195]
 class DetectionController():
     def __init__(self, world_index):
         self.world_index = world_index
-        self.threshhold = threshold_per_world[self.world_index]
+        self.threshold_for_line_detection = threshold_per_world[self.world_index]
         self.min_line_length = min_line_length_per_world[self.world_index]
         self.threshold_for_number_detection = threshold_for_number_detection_per_world[self.world_index]
 
@@ -38,8 +38,6 @@ class DetectionController():
                     connection.add_node(node)
 
             if len(connection.node_list) == 2:
-                # print(connection.node_list[0].number, connection.node_list[1].number)
-                # print(connection.node_list[0].index, connection.node_list[1].index)
                 connection_list.add_connection(connection)
         return connection_list
 
@@ -48,28 +46,24 @@ class DetectionController():
         vc_controller = VisualComputingController()
         img = cv2.imread(img_url)
 
-        white_out_top_of_img = vc_controller.white_out_top_of_screen(img)
+        white_out_top_of_img = vc_controller.white_out_top_of_img(img)
         whited_out_img = node_list.white_out_all_circles(white_out_top_of_img)
 
         whited_out_url = "{}/whited_out.png".format(dst_directory)
         cv2.imwrite(whited_out_url, whited_out_img)
         
         binary_url = "{}/binary_for_line_detection.png".format(dst_directory)
-        # vc_controller.do_binary(whited_out_url, binary_url, 180)
         vc_controller.do_binary(whited_out_url, binary_url, 200)
 
         im_bw = cv2.imread(binary_url)
         edges = cv2.Canny(im_bw,50,150,apertureSize=7)
         canny_url = "{}/canny_for_line_detection.png".format(dst_directory)
         cv2.imwrite(canny_url, edges)
-        # edges = cv2.Canny(im_bw,100,200,apertureSize=3)
-        # lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=12, minLineLength=10, maxLineGap=20)
-        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=self.threshhold, minLineLength=self.min_line_length, maxLineGap=20)
+        lines = cv2.HoughLinesP(edges, 1, np.pi/180,threshold=self.threshold_for_line_detection, minLineLength=self.min_line_length, maxLineGap=20)
 
         line_list = LineList()
         if lines is not None:
             #thin out line array since it found too many lines
-            #lines = cut_lines(lines)
             for line in lines:
                 x1, y1, x2, y2 = line[0]
                 cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), 3)
@@ -92,7 +86,7 @@ class DetectionController():
         im = cv2.imread(img_url, cv2.IMREAD_GRAYSCALE)
         rgbImage = cv2.cvtColor(im, cv2.COLOR_RGBA2RGB)
 
-        img = vc_controller.white_out_top_of_screen(rgbImage)
+        img = vc_controller.white_out_top_of_img(rgbImage)
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         nodes = cv2.HoughCircles(img_gray, cv2.HOUGH_GRADIENT, dp=1.5, minDist=10,param1=45, param2=45, minRadius=20, maxRadius=50)

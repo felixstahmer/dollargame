@@ -10,31 +10,22 @@ import time
 class GameController(): 
     def __init__(self):
         url = "https://thedollargame.io/game/level/100/100/1"
-        # BASE_DIR = "activegame"
         chromedriver = "/usr/local/bin/chromedriver"
-        
-
-        # options = Options();
-        # options.addArguments("--start-maximized");
 
         global browser
 
         chrome_options = Options()
         chrome_options.add_argument("--kiosk");
-        #chrome_options.add_argument("window-size=1400,1020")
+
         chrome_options.add_experimental_option('w3c', True)
         chrome_options.add_experimental_option("detach", True)
 
         self.browser = webdriver.Chrome(chromedriver, chrome_options=chrome_options)
-        # self.browser.set_window_size(1500, 1200)
-        # self.browser.maximize_window()
-        # self.browser.fullscreen_window()
+
 
         self.browser.get(url)
 
-        time.sleep(5)  # wait 5 seconds for the site to load.
-        # levelString = """"{'worldId':100,'packId':100,'levelId':2}");"""
-        # self.browser.execute_script("window.localStorage.setItem('lastVisitedLevel__0.0.8',{}".format(levelString))
+        time.sleep(5)  
         self.skip_tutorial()
 
     def skip_tutorial(self):
@@ -84,13 +75,11 @@ class GameController():
         print(last_visited_string)
         self.browser.execute_script(user_id_string)
         self.browser.execute_script(last_visited_string)
-        # time.sleep(5)
 
 
     def write_storage_to_file(self):
         with open('local_storage.txt', 'w') as f:
             f.write(self.user_id + '\n')
-            # f.write('\n')
             f.write(self.last_visited_level)
 
     def retrieve_local_storage(self): 

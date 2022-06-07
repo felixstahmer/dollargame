@@ -13,8 +13,8 @@ class ConnectionList():
             node1 = connection.node_list[0]
             node2 = connection.node_list[1]
 
-            node1.add_constraint(node2)
-            node2.add_constraint(node1)
+            node1.neighbor(node2)
+            node2.neighbor(node1)
 
 
     def find_unique_connections(self):
@@ -39,12 +39,8 @@ class ConnectionList():
                 if found == True: 
                     continue
                 else: 
-                    # print(node1.number, node2.number)
-                    # print(node1.index, node2.index)
                     unique_connections.append(connection)
             else:
-                # print(node1.number, node2.number)
-                # print(node1.index, node2.index)
                 unique_connections.append(connection)
         
         self.connection_list = unique_connections

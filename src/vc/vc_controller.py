@@ -42,7 +42,7 @@ class VisualComputingController():
                 rgbImage[y, x] = [0,0,0]
                 rgbImage[x, y] = [0,0,0]
 
-        y_value = height - y_edge
+
         x_value = width - x_edge
 
         for y in range(height):
@@ -52,7 +52,7 @@ class VisualComputingController():
         
         cv2.imwrite(img_url, rgbImage)
 
-    def white_out_top_of_screen(self, img):
+    def white_out_top_of_img(self, img):
         height, width, channels = img.shape
         #get a quarter of the height to white that part out 
         white_out_edge = int(height/20) * 3
@@ -63,5 +63,4 @@ class VisualComputingController():
                 #set to background color
                 img[y, x] = [184,194,66]
 
-        # cv2.imwrite("whited_out_test.png", img)
         return img

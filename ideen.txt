@@ -1,7 +1,0 @@
-- Abstände zwischen endpunkten berechnen und vielfachen wegschmeißen 
-- Clustering? Informieren! 
-- Alles was in der Nähe von einem Kreis ist, Zusammenfassen oder rausschmeißen 
-- Alles was nicht in der Nähe von einem Kreis ist, rausschmeißen 
-- Testdaten automatisch generieren 
-- Radius der Kreise: 32px; -> Mindestabstand zwischen den Kreisen: 2*Radius + 20
-- threshhold 45 für circle detection
