@@ -7,15 +7,15 @@ It starts a Selenium Browser instance and plays the levels on the website <a hre
 This project uses the libraries Selenium Webdriver, Python OpenCV, MiniZinc and Tesseract OCR.
 
 To start the program, you will need create and start virtual environment. After that, you can install the dependencies using <br><br>
-```console pip install -r requirements.txt ``` 
+``` pip install -r requirements.txt ``` 
 
 Start the program using 
 
-```console python main.py -mode=standard ```
+``` python main.py -mode=standard ```
 
 
 The argument "-mode" accepts 3 values: "standard", "start_at_level" and "calculate_level". 
-For the last two, you will need to add a ```console --world``` and a ```console --level``` argument. 
+For the last two, you will need to add a ``` --world``` and a ``` --level``` argument. 
 
 <h2>Start at a specific Level </h2>
 This mode allows you start at a different level besides the first one. <br>
