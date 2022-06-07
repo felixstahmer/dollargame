@@ -16,6 +16,8 @@ class GameController():
 
         chrome_options = Options()
         chrome_options.add_argument("--kiosk");
+        chrome_options.add_argument("--window-size=1920,1500")
+        chrome_options.add_argument("--start-fullscreen")
 
         chrome_options.add_experimental_option('w3c', True)
         chrome_options.add_experimental_option("detach", True)

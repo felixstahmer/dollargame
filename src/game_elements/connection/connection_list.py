@@ -13,8 +13,8 @@ class ConnectionList():
             node1 = connection.node_list[0]
             node2 = connection.node_list[1]
 
-            node1.neighbor(node2)
-            node2.neighbor(node1)
+            node1.add_neighbor(node2)
+            node2.add_neighbor(node1)
 
 
     def find_unique_connections(self):

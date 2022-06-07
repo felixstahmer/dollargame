@@ -18,7 +18,7 @@ numpy==1.21.2
 opencv-contrib-python==4.5.5.62
 outcome==1.1.0
 packaging==21.3
-Pillow==8.2.0
+Pillow==8.3.2
 pycparser==2.20
 pyOpenSSL==21.0.0
 pyparsing==3.0.7
